@@ -70,11 +70,48 @@
 	<!--Footer-->
 
 	<script type="text/javascript">
-		window.onLoad=changeFrame();
+		window.onLoad=myloader();
+		var html,css,js;
+		function myloader(){
+			if (sessionStorage.htmlData) {
+            	html=sessionStorage.htmlData;console.log('hua');
+            	document.getElementById("html_ip").innerHTML=html;
+        	}else{
+				html=document.getElementById("html_ip").value;        		
+        	}
+			if (sessionStorage.cssData) {
+            	css=sessionStorage.cssData;
+            	document.getElementById("css_ip").innerHTML=css;
+        	}else{
+				css=document.getElementById("css_ip").value;        		
+        	}
+			if (sessionStorage.jsData) {
+            	js=sessionStorage.jsData;
+            	document.getElementById("js_ip").innerHTML=js;
+        	}else{
+				js=document.getElementById("js_ip").value;        		
+        	}
+
+        	sessionStorage.htmlData=html; 
+        	sessionStorage.cssData=css; 
+        	sessionStorage.jsData=js; 
+
+			var content='<html><head><style>'+css+'</style></head><body>'+html+'<script>'+js+'<'+'/script></body></html>';
+			document.getElementById("disp").src="";
+			var doc=document.getElementById("disp").contentWindow.document;
+			doc.open();
+			doc.write(content);
+			doc.close();
+		}
 		function changeFrame(){
-			var html=document.getElementById("html_ip").value;
-			var css=document.getElementById("css_ip").value;
-			var js=document.getElementById("js_ip").value;
+			html=document.getElementById("html_ip").value;
+			css=document.getElementById("css_ip").value;
+			js=document.getElementById("js_ip").value;
+
+        	sessionStorage.htmlData=html; 
+        	sessionStorage.cssData=css; 
+        	sessionStorage.jsData=js; 
+
 			var content='<html><head><style>'+css+'</style></head><body>'+html+'<script>'+js+'<'+'/script></body></html>';
 			document.getElementById("disp").src="";
 			var doc=document.getElementById("disp").contentWindow.document;
