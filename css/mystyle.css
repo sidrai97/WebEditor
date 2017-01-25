@@ -1,0 +1,15 @@
+textarea{
+	width: 100%;
+	height: 100%;
+}
+iframe{
+	width: 100%;
+	height: 100%;
+}
+#op{
+	margin-top: 50px;
+	cursor: default;
+}
+#editor{
+	margin-top: 50px;
+}
