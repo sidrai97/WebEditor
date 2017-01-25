@@ -27,13 +27,13 @@
 			</ul>
 			<div class="tab-content">
 		  		<div id="html" class="tab-pane fade in active">	    		
-		    		<textarea spellcheck="false" id="html_ip" name="html_ip" oninput="changeFrame()"><h3>EDIT Here</h3></textarea>
+		    		<textarea spellcheck="false" id="html_ip" name="html_ip" oninput="changeFrame()"><h3>EDIT Here</h3><span id="jscheck"></span></textarea>
 		  		</div>
 		  		<div id="css" class="tab-pane fade">
-		   			<textarea spellcheck="false" id="css_ip" name="css_ip" oninput="changeFrame()"></textarea>
+		   			<textarea spellcheck="false" id="css_ip" name="css_ip" oninput="changeFrame()">h3{color:red;}</textarea>
 		  		</div>
 		  		<div id="js" class="tab-pane fade">
-		   			<textarea spellcheck="false" id="js_ip" name="JS_ip" oninput="changeFrame()"></textarea>
+		   			<textarea spellcheck="false" id="js_ip" name="JS_ip" oninput="changeFrame()">document.getElementById("jscheck").innerHTML="JS check";</textarea>
 		  		</div>
 			</div>		
 		</div>
@@ -62,6 +62,10 @@
 			doc.write(content);
 			doc.close();
 		}
+		document.getElementById("disp").style.height=screen.availHeight-300+"px";
+		document.getElementById("html_ip").style.height=screen.availHeight-300+"px";
+		document.getElementById("css_ip").style.height=screen.availHeight-300+"px";
+		document.getElementById("js_ip").style.height=screen.availHeight-300+"px";
 	</script>
 </body>
 </html>
