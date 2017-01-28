@@ -12,3 +12,6 @@ iframe{
 #editor{
 	margin-top: 50px;
 }
+#dbtn{
+	cursor: pointer;
+}

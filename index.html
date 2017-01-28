@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="icon" type="image/png" href="./myicon.png">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>WebEditor</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="./js/FileSaver.js"></script>
 	<link rel="stylesheet" type="text/css" 
 	href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -22,7 +24,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="https://sidrai97.github.io/WebEditor/">WebEditor</a>
+					<a class="navbar-brand" href="https://sidrai97.github.io/WebEditor/"><span><img src="./myicon.png" height="25px"></span>&nbsp;&nbsp;WebEditor</a>
 				</div>
 				<div class="collapse navbar-collapse" id="mynavbar">
 					<ul class="nav navbar-nav navbar-right">
@@ -41,6 +43,7 @@
 			  	<li class="active"><a data-toggle="tab" href="#html">HTML</a></li>
 			  	<li><a data-toggle="tab" href="#css">CSS</a></li>
 			  	<li><a data-toggle="tab" href="#js">JS</a></li>
+			  	<li id="dbtn"><a data-toggle="modal" data-target="#myModal">Download Code</a></li>
 			</ul>
 			<div class="tab-content">
 		  		<div id="html" class="tab-pane fade in active">	    		
@@ -52,7 +55,33 @@
 		  		<div id="js" class="tab-pane fade">
 		   			<textarea spellcheck="false" id="js_ip" name="JS_ip" oninput="changeFrame()">document.getElementById("jscheck").innerHTML="JS check";</textarea>
 		  		</div>
-			</div>		
+			</div>	
+			<div id="myModal" class="modal fade" role="dialog">
+  			<div class="modal-dialog">
+			<div class="modal-content">
+      			<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		<h4 class="modal-title">Code Download</h4>
+      			</div>
+      			<div class="modal-body">
+      				<h4>All in One HTML File</h4>
+        			<input type="text" id="fname" value="index_all" size="10" required>
+					<button id="savebtn" onclick="saver()" class="btn-info"><span class="fa fa-download"></span></button>
+					<hr>
+					<h4>Separate HTML, CSS ,JS Files</h4>
+					<input type="text" id="fhname" value="index_html" size="10" required>
+					<button id="savebtn" onclick="saver_html()" class="btn-danger"><span class="fa fa-download"></span></button>
+					<input type="text" id="fcname" value="index_css" size="10" required>
+					<button id="savebtn" onclick="saver_css()" class="btn-warning"><span class="fa fa-download"></span></button>
+					<input type="text" id="fjname" value="index_js" size="10" required>
+					<button id="savebtn" onclick="saver_js()" class="btn-success"><span class="fa fa-download"></span></button>
+      			</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      			</div>
+    		</div>
+    		</div>
+    		</div>	
 		</div>
 		<div class="col-md-6 col-md-pull-1 col-sm-offset-1 col-sm-10">
 			<h3 id="op" class="btn btn-success">OUTPUT</h3>
@@ -71,7 +100,38 @@
 
 	<script type="text/javascript">
 		window.onLoad=myloader();
-		var html,css,js;
+		var html,css,js,content;
+		
+		function saver(){
+		var tags='<html>\n<head>\n<style>\n'+css+'\n</style>\n</head>\n<body>\n'+html+'\n<script>\n'+js+'\n<'+'/script>\n</body>\n</html>';
+		var fname=document.getElementById("fname").value;
+		var blob=new Blob([tags], {type:"text/plain;charset=utf-8"});
+		saveAs(blob, fname+".html");
+		}
+
+		function saver_html(){
+		var fcname=document.getElementById("fcname").value;document.getElementById("fcname").readOnly=true;
+		var fjname=document.getElementById("fjname").value;document.getElementById("fjname").readOnly=true;
+		var tags='<html>\n<head>\n<link rel="stylesheet" href="./'+fcname+'.css">\n</head>\n<body>\n'+html+'\n<script src="./'+fjname+'.js">'+'<'+'/script>\n</body>\n</html>';
+		var fname=document.getElementById("fhname").value;
+		var blob=new Blob([tags], {type:"text/plain;charset=utf-8"});
+		saveAs(blob, fname+".html");
+		}
+
+		function saver_css(){
+		var tags=css;
+		var fname=document.getElementById("fcname").value;
+		var blob=new Blob([tags], {type:"text/plain;charset=utf-8"});
+		saveAs(blob, fname+".css");
+		}
+
+		function saver_js(){
+		var tags=js;
+		var fname=document.getElementById("fjname").value;
+		var blob=new Blob([tags], {type:"text/plain;charset=utf-8"});
+		saveAs(blob, fname+".js");
+		}
+		
 		function myloader(){
 			if (sessionStorage.htmlData) {
             	html=sessionStorage.htmlData;console.log('hua');
@@ -96,7 +156,7 @@
         	sessionStorage.cssData=css; 
         	sessionStorage.jsData=js; 
 
-			var content='<html><head><style>'+css+'</style></head><body>'+html+'<script>'+js+'<'+'/script></body></html>';
+			content='<html><head><style>'+css+'</style></head><body>'+html+'<script>'+js+'<'+'/script></body></html>';
 			document.getElementById("disp").src="";
 			var doc=document.getElementById("disp").contentWindow.document;
 			doc.open();
