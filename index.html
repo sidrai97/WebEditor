@@ -128,7 +128,7 @@
 		function saver_js(){
 		var tags=js;
 		var fname=document.getElementById("fjname").value;
-		var blob=new Blob([tags], {type:"text/plain;charset=utf-8"});
+		var blob=new Blob([tags], {type:"application/json;charset=utf-8"});
 		saveAs(blob, fname+".js");
 		}
 		
